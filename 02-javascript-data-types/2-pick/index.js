@@ -6,5 +6,5 @@
  */
 export const pick = (obj, ...fields) => { 
    const filt = Object.entries(obj).filter(item => fields.includes(item[0]))
-  return Object.fromEntries(filt);;
+  return Object.fromEntries(filt);
 };
