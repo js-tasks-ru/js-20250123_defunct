@@ -7,9 +7,12 @@ export function createGetter(path) {
   const arr = path.split('.');  
   
   return function(obj) {
-    if (!obj.hasOwnProperty(arr[0])) return ;
-    return arr.reduce((accum, item)=> 
-      accum.hasOwnProperty(item) ? accum[item] : undefined, obj)  
-    
+    //if (!obj.hasOwnProperty(arr[0])) return ;
+    return arr.reduce((accum, item)=> {
+      if (accum) {
+        return accum.hasOwnProperty(item) ? accum[item] : undefined
+      }
+    }
+    , obj) ;             
   }
 }

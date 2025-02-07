@@ -14,7 +14,9 @@ export function trimSymbols(string, size) {
     if (string[i] === string[i-1]) {      
       n++;              
     } 
-    else n = 1;
+    else {
+      n = 1;
+    }  
 
     if (n <= size) {
       newStr = newStr + string[i];  
