@@ -42,7 +42,7 @@ show(target = document.body) {
   if (!target.querySelector('div.notification') ) {        
     target.append(this.element);    
   }  
-  setTimeout(()=> {
+  this.timeId = setTimeout(()=> {
     this.remove()  
   }, this.duration
   );
@@ -53,7 +53,8 @@ remove() {
 }
 
 destroy() {
-  this.remove();
+  clearTimeout(this.timerId);
+  this.remove();  
 }
   
 }
