@@ -1,9 +1,11 @@
-export default class NotificationMessage {
+export default class NotificationMessage {  
   message ;
   duration;
   type; 
   element;
  
+  static lastShownComponent;
+
   constructor(
     message = '',
     {duration = 1000, 
@@ -14,16 +16,17 @@ export default class NotificationMessage {
     this.duration = duration;
     this.type = type;  
     this.element = this.createElement(this.createTemplate());
-    //  debugger;
   }
 
   createTemplate() {
     return (`    
-      <div class="timer"></div>
-      <div class="inner-wrapper">
-        <div class="notification-header">${this.type}</div>
-        <div class="notification-body">
-          ${this.message}
+      <div class="notification ${this.type}" style="--value:${Math.floor(this.duration / 1000)}s">
+        <div class="timer"></div>
+        <div class="inner-wrapper">
+          <div class="notification-header">${this.type}</div>
+          <div class="notification-body">
+            ${this.message}
+          </div>
         </div>
       </div>`
     );
@@ -31,29 +34,32 @@ export default class NotificationMessage {
 
   createElement(template) {
     const element = document.createElement('div');
-    element.style = `--value:${Math.floor(this.duration / 1000)}s`;
-    // element.style = "--value:20s";
-    element.className = `notification ${this.type}`;
     element.innerHTML = template;
-    return element ;
+    return element.firstElementChild ;
   }
 
   show(target = document.body) {  
-    if (!target.querySelector('div.notification')) {        
-      target.append(this.element);    
-    }  
+    if (NotificationMessage.lastShownComponent) {
+    //  debugger;
+      NotificationMessage.lastShownComponent.remove();
+    }
+    NotificationMessage.lastShownComponent = this; 
+
+    target.append(this.element);
+
     this.timeId = setTimeout(()=> {
       this.remove();  
     }, this.duration
     );
   }
 
+
   remove() {
     this.element.remove();
+    clearTimeout(this.timerId);
   }
 
-  destroy() {
-    clearTimeout(this.timerId);
+  destroy() {    
     this.remove();  
   }
   
