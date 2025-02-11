@@ -10,9 +10,9 @@ export function createGetter(path) {
     //if (!obj.hasOwnProperty(arr[0])) return ;
     return arr.reduce((accum, item)=> {
       if (accum) {
-        return accum.hasOwnProperty(item) ? accum[item] : undefined
+        return accum.hasOwnProperty(item) ? accum[item] : undefined;
       }
     }
     , obj) ;             
-  }
+  };
 }

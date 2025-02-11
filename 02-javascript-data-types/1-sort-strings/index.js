@@ -8,9 +8,9 @@ export function sortStrings(arr, param = 'asc') {
   const sortArr = [...arr];  
 
   if (param === 'asc') {
-    return sortArr.sort((a, b) => a.localeCompare(b,'ru',{caseFirst: 'upper'}));
+    return sortArr.sort((a, b) => a.localeCompare(b, 'ru', {caseFirst: 'upper'}));
   }
 
-  return sortArr.sort((a, b) => -a.localeCompare(b,'ru',{caseFirst: 'upper'}));
+  return sortArr.sort((a, b) => -a.localeCompare(b, 'ru', {caseFirst: 'upper'}));
 }
 

@@ -9,5 +9,5 @@ export function invertObj(obj) {
   }
 
   const arr = Object.entries(obj);
-  return Object.fromEntries(arr.map(([key,value])=>[value,key]));
+  return Object.fromEntries(arr.map(([key, value])=>[value, key]));
 }

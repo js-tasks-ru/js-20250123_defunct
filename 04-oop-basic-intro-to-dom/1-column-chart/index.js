@@ -1,15 +1,15 @@
-export default class ColumnChart{ 
+export default class ColumnChart { 
   element;
   chartHeight = 50;
 
   constructor({
-      data = [],
-      label = '',
-      link = '',
-      value = 0,
-      formatHeading = value => value
-    } = {}
-    ) 
+    data = [],
+    label = '',
+    link = '',
+    value = 0,
+    formatHeading = value => value
+  } = {}
+  ) 
   {
     this.data = data;
     this.label = label;
@@ -40,7 +40,7 @@ export default class ColumnChart{
 
   createLinkTemplate() {
     if (this.link) {
-      return `<a href="${this.link}" class="column-chart__link">View all</a>`
+      return `<a href="${this.link}" class="column-chart__link">View all</a>`;
     }
     return '';
   }
@@ -48,7 +48,7 @@ export default class ColumnChart{
   createChartBodyTemplate () {
     return this.getColumnProps().map(({percent, value}) => (
       `<div style="--value: ${value}" data-tooltip="${percent}"></div>`
-      )
+    )
     ).join('');
   }
 
