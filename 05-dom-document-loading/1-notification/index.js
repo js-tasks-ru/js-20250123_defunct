@@ -33,7 +33,7 @@ export default class NotificationMessage {
   }
 
   createElement(template) {
-    const element = document.createElement('div');
+    let element = document.createElement('div');
     element.innerHTML = template;
     return element.firstElementChild ;
   }
