@@ -6,7 +6,6 @@ export default class SortableTable {
     this.data = data;   
     this.element = this.createElement(this.createTemplate());   
     this.selectSubElements();
-    //console.log(this.subElements);
   }
 
   selectSubElements() {
@@ -16,18 +15,13 @@ export default class SortableTable {
   }
 
   createTableHeader(fieldValue, orderValue) {
-    if (!Array.isArray(this.headerConfig) || this.headerConfig.length === 0) {
-      return;
-    }
-
     let headerCells = this.headerConfig.reduce((str, item)=> {
-    //  debugger
+
       return str + `
       <div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}" data-order="${(fieldValue === item.id) ? orderValue : ''}">
         <span>${item.title}</span>
       </div>`;
     }, '');  
-    //  console.log(headerCells)  ;
 
     return `
       <div data-element="header" class="sortable-table__header sortable-table__row">
@@ -40,7 +34,7 @@ export default class SortableTable {
     let rowStr;
     rowStr = `<a href="/products/${object.id}" class="sortable-table__row"> `;
     let divContent;
-    // debugger
+
     (this.headerConfig).forEach((item) => {
       if (item.id === 'images') {
         divContent = `<img class="sortable-table-image" alt="Image" src="${object.images[0].url}"> </img>`;        
@@ -55,26 +49,29 @@ export default class SortableTable {
   }
 
   createTableBody() {
-    let tableStr = `<div data-element="body" class="sortable-table__body">
-    `;
+    let tableStr = '';
 
     this.data.forEach((item)=> {
       tableStr += this.createTableRowTemplate(item);     
     }, '');  
 
-    return tableStr + `</div>
-    `;
+    return tableStr;
   }
 
   createTemplate(fieldValue = '', orderValue = '') {
+    if (!Array.isArray(this.headerConfig) || this.headerConfig.length === 0) {
+      return;
+    }
+
     return (`
     <div data-element="productsContainer" class="products-list__container">
   <div class="sortable-table">
     ${this.createTableHeader(fieldValue, orderValue)} 
-    ${this.createTableBody()}        
+    <div data-element="body" class="sortable-table__body">
+      ${this.createTableBody()}  
+    </div>      
 
     <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
-
     <div data-element="emptyPlaceholder" class="sortable-table__empty-placeholder">
       <div>
         <p>No products satisfies your filter criteria</p>
@@ -93,11 +90,8 @@ export default class SortableTable {
     return element.firstElementChild ;
   }
 
-  updateElement(template) {    
-    // this.element.outerHTML = template;
-    let parent = this.element.parentElement;
-    parent.innerHTML = template;  
-    this.element = parent.firstElementChild;
+  updateElement() {    
+    this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
   }
 
   sort(fieldValue, orderValue) {   
@@ -105,24 +99,19 @@ export default class SortableTable {
       return;
     }
 
-    const cellIndex = this.headerConfig.findIndex(item => item.id === fieldValue);
-    if (!this.headerConfig[cellIndex].sortable) {
+    const columnConfig = this.headerConfig.find(item => item.id === fieldValue);
+
+    if (!columnConfig.sortable) {
       return;
     }
-    
-    if ((typeof (this.data[0][fieldValue]) === 'number') || (typeof (this.data[0][fieldValue]) === 'bigint') || (typeof (this.data[0][fieldValue]) === 'boolean')) {
-      if (orderValue === 'asc') {
-        this.data.sort((a, b) => parseFloat(a[fieldValue]) - parseFloat(b[fieldValue]));
-      } else { 
-        this.data.sort((a, b) => parseFloat(b[fieldValue]) - parseFloat(a[fieldValue]));
-      }  
+
+    const k = orderValue === 'asc' ? 1 : -1;   
+    if (columnConfig.sortType === 'number') {
+      this.data.sort((a, b) => k * a[fieldValue] - b[fieldValue]);
       
-    } else if (typeof (this.data[0][fieldValue]) === 'string') {
-      if (orderValue === 'asc') {
-        this.data.sort((a, b) => a[fieldValue].localeCompare(b[fieldValue], 'ru', {caseFirst: 'upper'}));
-      } else {
-        this.data.sort((a, b) => -a[fieldValue].localeCompare(b[fieldValue], 'ru', {caseFirst: 'upper'}));
-      }  
+    }
+    if (columnConfig.sortType === 'string') {
+      this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru', 'en'], {caseFirst: 'upper'})); 
     }
    
     this.updateElement(this.createTemplate(fieldValue, orderValue));
