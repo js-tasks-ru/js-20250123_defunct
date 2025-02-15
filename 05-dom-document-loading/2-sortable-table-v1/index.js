@@ -15,14 +15,15 @@ export default class SortableTable {
     });
   }
 
-  createTableHeader() {
+  createTableHeader(fieldValue, orderValue) {
     if (!Array.isArray(this.headerConfig) || this.headerConfig.length === 0) {
       return;
     }
 
     let headerCells = this.headerConfig.reduce((str, item)=> {
+    //  debugger
       return str + `
-      <div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}" data-order="asc">
+      <div class="sortable-table__cell" data-id="${item.id}" data-sortable="${item.sortable}" data-order="${(fieldValue === item.id) ? orderValue : ''}">
         <span>${item.title}</span>
       </div>`;
     }, '');  
@@ -46,9 +47,7 @@ export default class SortableTable {
       } else {
         divContent = object[item.id];
       } 
-      rowStr += `<div class="sortable-table__cell">
-          ${divContent}
-          </div> `;
+      rowStr += `<div class="sortable-table__cell">${divContent}</div> `;
     });
 
     rowStr += `</a>`;
@@ -67,11 +66,11 @@ export default class SortableTable {
     `;
   }
 
-  createTemplate() {
+  createTemplate(fieldValue = '', orderValue = '') {
     return (`
     <div data-element="productsContainer" class="products-list__container">
   <div class="sortable-table">
-    ${this.createTableHeader()} 
+    ${this.createTableHeader(fieldValue, orderValue)} 
     ${this.createTableBody()}        
 
     <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
@@ -126,7 +125,7 @@ export default class SortableTable {
       }  
     }
    
-    this.updateElement(this.createTemplate());
+    this.updateElement(this.createTemplate(fieldValue, orderValue));
   }
 
   remove() {
