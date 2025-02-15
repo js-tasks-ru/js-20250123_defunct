@@ -95,8 +95,10 @@ export default class SortableTable {
   }
 
   updateElement(template) {    
-    // this.element.outerHTML = template;  
-    this.element.innerHTML = template;  
+    // this.element.outerHTML = template;
+    let parent = this.element.parentElement;
+    parent.innerHTML = template;  
+    this.element = parent.firstElementChild;
   }
 
   sort(fieldValue, orderValue) {   
@@ -109,7 +111,7 @@ export default class SortableTable {
       return;
     }
     
-    if ((typeof (this.data[0][fieldValue]) === 'number') || (typeof (this.data[0][fieldValue]) === 'bigInt') || (typeof (this.data[0][fieldValue]) === 'boolean')) {
+    if ((typeof (this.data[0][fieldValue]) === 'number') || (typeof (this.data[0][fieldValue]) === 'bigint') || (typeof (this.data[0][fieldValue]) === 'boolean')) {
       if (orderValue === 'asc') {
         this.data.sort((a, b) => parseFloat(a[fieldValue]) - parseFloat(b[fieldValue]));
       } else { 
