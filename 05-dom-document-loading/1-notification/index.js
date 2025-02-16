@@ -53,7 +53,6 @@ export default class NotificationMessage {
     );
   }
 
-
   remove() {
     this.element.remove();
     clearTimeout(this.timerId);
