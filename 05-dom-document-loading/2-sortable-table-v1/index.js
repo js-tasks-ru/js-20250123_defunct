@@ -36,12 +36,12 @@ export default class SortableTable {
     let divContent;
 
     (this.headerConfig).forEach((item) => {
-      if (item.id === 'images') {
-        divContent = `<img class="sortable-table-image" alt="Image" src="${object.images[0].url}"> </img>`;        
+      if (item.template) {
+        divContent = item.template(object.images);
       } else {
-        divContent = object[item.id];
-      } 
-      rowStr += `<div class="sortable-table__cell">${divContent}</div> `;
+        divContent = `<div class="sortable-table__cell">${object[item.id]}</div> `;
+      }
+      rowStr += divContent;
     });
 
     rowStr += `</a>`;
@@ -85,13 +85,9 @@ export default class SortableTable {
   }
 
   createElement(template) {
-    let element = document.createElement('div');
+    const element = document.createElement('div');
     element.innerHTML = template;
     return element.firstElementChild ;
-  }
-
-  updateElement() {    
-    this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
   }
 
   sort(fieldValue, orderValue) {   
@@ -114,7 +110,7 @@ export default class SortableTable {
       this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru', 'en'], {caseFirst: 'upper'})); 
     }
    
-    this.updateElement(this.createTemplate(fieldValue, orderValue));
+    this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
   }
 
   remove() {
