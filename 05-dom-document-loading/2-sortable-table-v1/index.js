@@ -103,11 +103,11 @@ export default class SortableTable {
 
     const k = orderValue === 'asc' ? 1 : -1;   
     if (columnConfig.sortType === 'number') {
-      this.data.sort((a, b) => k * a[fieldValue] - b[fieldValue]);
+      this.data.sort((a, b) => k * (a[fieldValue] - b[fieldValue]));
       
     }
     if (columnConfig.sortType === 'string') {
-      this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru', 'en'], {caseFirst: 'upper'})); 
+      this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru','en'], {caseFirst: 'upper'})); 
     }
    
     this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();

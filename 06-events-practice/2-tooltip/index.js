@@ -20,7 +20,6 @@ class Tooltip {
 
     const x = event.clientX;  // получаем координату X мыши
     const y = event.clientY;  // получаем координату Y мыши
-  //  console.log(`Координаты мыши: x=${x}, y=${y}`); 
 
     this.element.style.left = x + 'px' ;
     this.element.style.top = y + 'px';
@@ -32,7 +31,7 @@ class Tooltip {
     if (!event.target.dataset.tooltip) {
       return;    
     }  
-    this.element.style.visibility = 'hidden';
+    this.remove();
   } 
 
   createListeners() {   
@@ -50,13 +49,11 @@ class Tooltip {
     element.innerHTML = '<div class="tooltip">This is tooltip</div>';
     
     this.element = element.firstElementChild;
-    this.element.style.visibility = 'hidden';
-    document.body.append(this.element);       
   }
 
-  render(tooltip) {        
+  render(tooltip) {      
     this.element.textContent = tooltip;
-    this.element.style.visibility = 'visible';
+    document.body.append(this.element);      
   }
 
   remove() {
