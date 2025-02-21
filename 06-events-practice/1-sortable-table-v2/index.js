@@ -44,7 +44,7 @@ export default class SortableTable extends SortableTableV1 {
     }
 
     const sortField = cellElement.dataset.id;
-    const sortOrder = (cellElement.dataset.order === 'asc') ? 'desc' : 'asc';
+    const sortOrder = (cellElement.dataset.order === 'desc') ? 'asc' : 'desc';
 
     console.log(sortOrder);
 

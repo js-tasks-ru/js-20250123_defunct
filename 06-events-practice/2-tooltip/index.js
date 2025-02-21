@@ -8,8 +8,6 @@ class Tooltip {
     }
 
     Tooltip.instance = this; 
-
-    this.createListeners();
   }
 
   handleDocumentPointerOver = (event) =>{
@@ -49,6 +47,8 @@ class Tooltip {
     element.innerHTML = '<div class="tooltip">This is tooltip</div>';
     
     this.element = element.firstElementChild;
+
+    this.createListeners();
   }
 
   render(tooltip) {      
