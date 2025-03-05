@@ -59,8 +59,7 @@ export default class ColumnChart {
   createTemplate() {
     return `
     <div class="${this.createChartClass()}" style="--chart-height: 50">
-      <div class="column-chart__title">
-        ${this.label}
+      <div class="column-chart__title">${this.label}
         ${this.createLinkTemplate()}
       </div>
       <div class="column-chart__container">
@@ -72,8 +71,10 @@ export default class ColumnChart {
   }
 
   update(newData) {
-    this.data = newData; 
+    this.data = newData;         
     this.element.querySelector('[data-element="body"]').innerHTML = this.createChartBodyTemplate();  
+    this.element.className = this.createChartClass();   
+    this.element.querySelector('[data-element="header"]').innerHTML = this.formatHeading(this.value);  
   }
 
   remove() {

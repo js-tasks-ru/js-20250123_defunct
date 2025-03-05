@@ -46,8 +46,6 @@ export default class SortableTable extends SortableTableV1 {
     const sortField = cellElement.dataset.id;
     const sortOrder = (cellElement.dataset.order === 'desc') ? 'asc' : 'desc';
 
-    console.log(sortOrder);
-
     cellElement.dataset.order = sortOrder;              
     cellElement.append(this.arrowElement);
 
@@ -59,7 +57,7 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   sortOnServer() {
-
+    throw new Error('must be implemented');
   }
 
   sort(sortField, sortOrder) {
@@ -71,8 +69,7 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   createListeners() {
-    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);
-    //this.subElements.header.addEventListener('click', this.handleHeaderCellClick);
+    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);    
   }
 
   destroyListeners() {

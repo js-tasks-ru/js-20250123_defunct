@@ -35,7 +35,7 @@ export default class SortableTable {
     rowStr = `<a href="/products/${object.id}" class="sortable-table__row"> `;
     let divContent;
 
-    (this.headerConfig).forEach((item) => {
+    this.headerConfig.forEach((item) => {
       if (item.template) {
         divContent = item.template(object.images);
       } else {

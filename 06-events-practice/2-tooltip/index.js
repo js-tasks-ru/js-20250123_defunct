@@ -16,11 +16,11 @@ class Tooltip {
     }
     const tooltip = event.target.dataset.tooltip;  
 
-    const x = event.clientX;  // получаем координату X мыши
-    const y = event.clientY;  // получаем координату Y мыши
-
-    this.element.style.left = x + 'px' ;
-    this.element.style.top = y + 'px';
+    const x = event.clientX; 
+    const y = event.clientY;
+    
+    this.element.style.left = x + this.element.offsetWidth  + 'px' ;
+    this.element.style.top = y + this.element.offsetHeight  + 'px' ;
 
     this.render(tooltip); 
   }
