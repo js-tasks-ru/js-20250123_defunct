@@ -22,7 +22,7 @@ export default class ColumnChart extends ColumnChartV1 {
     this.url = url;
     this.range = range;
     const {from, to}  = range;  
-    this.fetchData(from, to);
+    this.update(from, to);
   }
 
   selectSubElements() {
@@ -42,7 +42,7 @@ export default class ColumnChart extends ColumnChartV1 {
     return url.toString();
   }
 
-  fetchData(from, to) {
+  /*fetchData(from, to) {
     const url = this.createUrl(from, to);
     fetch(url)
     .then(response => response.json())
@@ -52,7 +52,7 @@ export default class ColumnChart extends ColumnChartV1 {
       super.update(dataArr);
     })  
     .catch (err => console.log(err));    
-  }
+  }*/
 
   async update(from, to) {
     try {
