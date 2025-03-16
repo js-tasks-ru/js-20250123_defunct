@@ -2,7 +2,8 @@ import SortableTableV1 from '../../05-dom-document-loading/2-sortable-table-v1/i
 
 export default class SortableTable extends SortableTableV1 {
   arrowElement
-  isSortLocally
+  sorted
+  isSortLocally  
 
   constructor(headersConfig, {
     data = [],
@@ -10,7 +11,8 @@ export default class SortableTable extends SortableTableV1 {
   } = {}) {      
     
     super(headersConfig, data);
-    this.isSortLocally = true;
+    this.sorted = sorted;
+    this.isSortLocally = true;    
     this.createListeners();
     this.createArrowElement();
 
@@ -20,7 +22,7 @@ export default class SortableTable extends SortableTableV1 {
         sortElem.dataset.order = sorted.order;
         sortElem.append(this.arrowElement);
       }
-      this.sort(sorted.id, sorted.order);
+      this.sort(this.sorted.id, this.sorted.order);
     }  
   }
 
@@ -34,6 +36,7 @@ export default class SortableTable extends SortableTableV1 {
 
   handleHeaderCellPointerDown = (e) => {
     const cellElement = e.target.closest('.sortable-table__cell');
+    
 
     if (!cellElement) {
       return;
@@ -56,20 +59,24 @@ export default class SortableTable extends SortableTableV1 {
     super.sort(sortField, sortOrder);
   }
 
-  sortOnServer() {
-    throw new Error('must be implemented');
+  sortOnServer(sortField, sortOrder) {
+    // TODO
+   // throw new Error('must be implemented');
   }
 
   sort(sortField, sortOrder) {
+    this.sorted.id = sortField;
+    this.sorted.order = sortOrder;
+
     if (this.isSortLocally) {      
       this.sortOnClient(sortField, sortOrder);
     } else {
-      this.sortOnServer();
+      this.sortOnServer(sortField, sortOrder);
     }
   }
 
   createListeners() {
-    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);    
+    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);        
   }
 
   destroyListeners() {

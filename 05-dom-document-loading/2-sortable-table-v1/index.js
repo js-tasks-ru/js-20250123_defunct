@@ -109,7 +109,7 @@ export default class SortableTable {
     if (columnConfig.sortType === 'string') {
       this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru','en'], {caseFirst: 'upper'})); 
     }
-   
+       
     this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
   }
 
