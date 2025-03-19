@@ -37,8 +37,12 @@ export default class ColumnChart extends ColumnChartV1 {
 
   createUrl(from, to) {
     const url = new URL(this.url, BACKEND_URL);
-    url.searchParams.append('from', from ? this.getShortDate(from) : undefined);
-    url.searchParams.append('to', to ? this.getShortDate(to) : undefined);   
+    if (from) {
+      url.searchParams.append('from', this.getShortDate(from));
+    }
+    if (to) {
+      url.searchParams.append('to', this.getShortDate(to));     
+    }    
     return url.toString();
   }
 

@@ -5,7 +5,7 @@ export default class SortableTable {
     this.headerConfig = headerConfig;
     this.data = data;   
     this.element = this.createElement(this.createTemplate());   
-    this.selectSubElements();
+    this.selectSubElements();  
   }
 
   selectSubElements() {
@@ -66,12 +66,11 @@ export default class SortableTable {
     return (`
     <div data-element="productsContainer" class="products-list__container">
   <div class="sortable-table">
+    <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
     ${this.createTableHeader(fieldValue, orderValue)} 
     <div data-element="body" class="sortable-table__body">
       ${this.createTableBody()}  
-    </div>      
-
-    <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
+    </div>          
     <div data-element="emptyPlaceholder" class="sortable-table__empty-placeholder">
       <div>
         <p>No products satisfies your filter criteria</p>
@@ -90,7 +89,7 @@ export default class SortableTable {
     return element.firstElementChild ;
   }
 
-  sort(fieldValue, orderValue) {   
+  sort(fieldValue, orderValue) {       
     if (this.data.length === 0) {
       return;
     }
@@ -109,8 +108,13 @@ export default class SortableTable {
     if (columnConfig.sortType === 'string') {
       this.data.sort((a, b) => k * a[fieldValue].localeCompare(b[fieldValue], ['ru','en'], {caseFirst: 'upper'})); 
     }
-       
-    this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
+           
+    this.update();
+  }
+
+  update() {
+    //this.element.querySelector('[data-element="body"]').innerHTML = this.createTableBody();
+    this.subElements.body.innerHTML = this.createTableBody();
   }
 
   remove() {

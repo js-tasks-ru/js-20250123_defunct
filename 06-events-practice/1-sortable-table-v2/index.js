@@ -6,13 +6,14 @@ export default class SortableTable extends SortableTableV1 {
   isSortLocally  
 
   constructor(headersConfig, {
+    isSortLocally = true,
     data = [],
-    sorted = {}
+    sorted = { id: 'title', desc: 'asc'}
   } = {}) {      
     
     super(headersConfig, data);
     this.sorted = sorted;
-    this.isSortLocally = true;    
+    this.isSortLocally = isSortLocally;    
     this.createListeners();
     this.createArrowElement();
 
@@ -34,7 +35,7 @@ export default class SortableTable extends SortableTableV1 {
     this.arrowElement = element.firstElementChild ;
   }
 
-  handleHeaderCellPointerDown = (e) => {
+  handleHeaderCellPointerDown (e) {    
     const cellElement = e.target.closest('.sortable-table__cell');
     
 
@@ -76,7 +77,8 @@ export default class SortableTable extends SortableTableV1 {
   }
 
   createListeners() {
-    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);        
+    this.handleHeaderCellPointerDown = this.handleHeaderCellPointerDown.bind(this);               
+    this.subElements.header.addEventListener('pointerdown', this.handleHeaderCellPointerDown);      
   }
 
   destroyListeners() {
