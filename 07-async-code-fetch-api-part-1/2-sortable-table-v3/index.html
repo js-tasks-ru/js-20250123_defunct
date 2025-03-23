@@ -54,8 +54,12 @@
     },
   ];
 
+ // import data from './products-data.js';
+
   const sortableTable = new SortableTable(header, {
     url: 'api/rest/products'
+   // data: data,
+   // isSortLocally: true
   });
 
   root.append(sortableTable.element);
